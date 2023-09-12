@@ -55,9 +55,11 @@ public class PostagemController {
 	
 	@PostMapping
 	public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem){
+//.existsById() é um método padrão da camada Repository utilizado para consultar se um Objeto específico persistido no Banco de dados existe, retornando true se for encontrado
 		if (temaRepository.existsById(postagem.getTema().getId()))
 			return ResponseEntity.status(HttpStatus.CREATED)
 					.body(postagemRepository.save(postagem));
+//.save() é um método padrão da camada Repository utilizado para atualizar um Objeto específico persistido no Banco de dados		
 		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tema não existe!", null);
 	}
 	
@@ -68,12 +70,9 @@ public class PostagemController {
 			if(temaRepository.existsById(postagem.getTema().getId()))
 				return ResponseEntity.status(HttpStatus.OK)
 						.body(postagemRepository.save(postagem));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tema não existe!", null);
-			
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tema não existe!", null);	
 		}
-		
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
    }
 	
 	@ResponseStatus(HttpStatus.NO_CONTENT)
